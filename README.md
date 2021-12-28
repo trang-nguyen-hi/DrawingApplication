@@ -1,24 +1,18 @@
 ## Overview
-Ship Application is a graphical editor in JavaFX that lets user create, position, group, rotate and cut/copy/paste the spaceships. This requires the application of selection,  multiple selection, rotation, grouping, group transformation and clipboarding, learnt in CMPT 381 (Implementation of Graphical User Interfaces).
+A JavaFX drawing program that requires understanding of immediate-mode graphics, interaction with graphics, more complex model-view-controller architectures, and multiple synchronized visual representations of the model. There is a miniature view at the top-left (which shows the entire document) and the main surface (where user draws shapes) and both can be used for drawing, selection, and navigation.
 
 ![Algorithm schema](./screenshot.png)
 
 ## Functionalities
-* Creation: hold Shift and single-click 
-* Single Selection: single-click on a ship
-* Multiple Selection:
-  * Using Control button: Control-click on a ship will add/remove the ship from the current selection set
-  * Using Rubberband:
-    * Press the left-mouse button on the background and drag: all ships enclosed by the rubber-band outline are selected
-    * Same action as above but also hold the Control button: previously selected ships are deselected and while unselected ships are added to the selection set.
-* Moving: Drag the ship (if there are more than 1 ship currently in selection set, drag one of them will move every ship in the set)
-* Grouping:
-  * Grouping: If the selection set has more than 1 ship, pressing the G key would put all the selected ships into one group. Ship group has a bounding box.
-  * Ungrouping: pressing the U key would ungroup the selected group
-* Cut/Copy/Paste: use Ctrl-X/Ctrl-C/Ctrl-V for cutting/copying/pasting ships/ship groups.
-* Rotation: use the slider at the top of the canvas to rotate the selection set.
+* Drawing: drag the mouse on the surface
+* Selection: single-click on a shape. The selected shape will be moved at the front of all other shapes
+* Resizing:  choose  the shape and drag the yellow handle
+* Moving: Drag the shape
+* Deletion:  choose the shape and press Delete key
+* Panning:
+ * Press the right-mouse button and drag
+ * Drag the viewfinder (the yellow rectangle in the miniature view)
 ## Technologies
 * Intelliji
 * Java
 * JavaFX
-
