@@ -10,8 +10,8 @@ A JavaFX drawing program that requires understanding of immediate-mode graphics,
 * Moving: Drag the shape
 * Deletion:  choose the shape and press Delete key
 * Panning:
- * Press the right-mouse button and drag
- * Drag the viewfinder (the yellow rectangle in the miniature view)
+    * Press the right-mouse button and drag
+    * Drag the viewfinder (the yellow rectangle in the miniature view)
 ## Technologies
 * Intelliji
 * Java
