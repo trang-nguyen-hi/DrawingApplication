@@ -6,7 +6,8 @@ A JavaFX drawing program that requires understanding of immediate-mode graphics,
 ## Functionalities
 * Drawing: drag the mouse on the surface
 * Selection: single-click on a shape. The selected shape will be moved at the front of all other shapes
-* Resizing:  choose  the shape and drag the yellow handle
+* Resizing Shape:  choose  the shape and drag the yellow handle
+* Resizing View: draw the corner of the program window (the view finder in miniature view would adjust accordingly)
 * Moving: drag the shape
 * Deletion:  choose the shape and press Delete key
 * Panning:
