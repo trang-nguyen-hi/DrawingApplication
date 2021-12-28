@@ -1,21 +1,18 @@
 package com.example.assignment3;
 
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class MiniDrawingView extends DrawingView{
     public MiniDrawingView(double docWidth, double docHeight, double width, double height){
         super(docWidth, docHeight, width, height);
-        this.setStyle("-fx-border-color: red;\n" +
-                "-fx-border-insets: 2;\n" +
-                "-fx-border-width: 2;\n" +
-                "-fx-border-style: dashed;\n");
+        this.setStyle("""
+                -fx-border-color: red;
+                -fx-border-insets: 2;
+                -fx-border-width: 2;
+                -fx-border-style: dashed;
+                """);
         this.setMaxSize(100.0, 100.0);
     }
 
@@ -61,13 +58,14 @@ public class MiniDrawingView extends DrawingView{
     @Override
     public void setController(DrawingController newController) {
         controller = newController;
-        myCanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                controller.handlePressed(viewXtoNorm(mouseEvent.getX()), viewYtoNorm(mouseEvent.getY()), mouseEvent);
+        myCanvas.setOnMousePressed(mouseEvent -> controller.handlePressed(viewXtoNorm(mouseEvent.getX()), viewYtoNorm(mouseEvent.getY()), mouseEvent));
+        myCanvas.setOnMouseDragged(e -> {
+            try {
+                controller.handleDragged( viewXtoNorm(e.getX()), viewYtoNorm(e.getY()), e);
+            } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException ex) {
+                ex.printStackTrace();
             }
         });
-        myCanvas.setOnMouseDragged(e -> controller.handleDragged( viewXtoNorm(e.getX()), viewYtoNorm(e.getY()), e));
         myCanvas.setOnMouseReleased(e -> controller.handleReleased(e));
     }
 

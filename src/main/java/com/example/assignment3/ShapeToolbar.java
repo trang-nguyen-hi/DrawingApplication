@@ -1,9 +1,6 @@
 package com.example.assignment3;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -11,10 +8,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
-import java.lang.invoke.VolatileCallSite;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.SynchronousQueue;
 
 public class ShapeToolbar extends VBox implements InteractionModelSubscriber{
     ToggleButton rectButton;
@@ -42,26 +37,28 @@ public class ShapeToolbar extends VBox implements InteractionModelSubscriber{
         rectButton = new ToggleButton();
         rectangle = new Rectangle(40, 20);
         rectButton.setGraphic(new VBox(rectangle, new Label("Rectangle")));
+        rectButton.setId(XRectangle.class.getName());
 
         squareButton = new ToggleButton();
         square = new Rectangle(30, 30);
         squareButton.setGraphic(new VBox(square, new Label("Square")));
-
+        squareButton.setId(XSquare.class.getName());
 
         circleButton = new ToggleButton();
         circle = new Circle(15);
         circleButton.setGraphic(new VBox(circle, new Label("Circle")));
-
+        circleButton.setId(XCircle.class.getName());
 
         ovalButton = new ToggleButton();
         oval = new Ellipse(20, 10);
         ovalButton.setGraphic(new VBox(oval, new Label("Oval")));
-
+        ovalButton.setId(XOval.class.getName());
 
         lineButton = new ToggleButton();
         line = new Line(0, 0, 20, 20);
         line.setStrokeWidth(5);
         lineButton.setGraphic(new VBox(line, new Label("Line")));
+        lineButton.setId(XLine.class.getName());
 
         buttonList = new ArrayList<>(Arrays.asList(rectButton, squareButton, circleButton, ovalButton, lineButton));
 
@@ -81,30 +78,39 @@ public class ShapeToolbar extends VBox implements InteractionModelSubscriber{
 
     public void setController(DrawingController newController) {
         controller = newController;
-        buttonList.forEach(cr -> cr.setOnMouseClicked(e -> controller.setShape(((Label)((VBox)cr.getGraphic()).getChildren().get(1)).getText())));
+        buttonList.forEach(cr -> cr.setOnMouseClicked(e -> {
+            try {
+                controller.setShape((Class<? extends XShape>) Class.forName(cr.getId()));
+            } catch (InstantiationException ex) {
+                ex.printStackTrace();
+            } catch (IllegalAccessException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }));
     }
 
-    public void setInteractionModel(InteractionModel newIModel) {
+    public void setInteractionModel(InteractionModel newIModel) throws InstantiationException, IllegalAccessException {
         iModel = newIModel;
         // set initial shape
-        iModel.setShape("Rectangle");
+        iModel.setSelectedShape(XRectangle.class);
     }
 
     @Override
     public void iModelChanged() {
         // set border highlight for selected shape
         buttonList.forEach(cr -> {
-            String buttonlabel = ((Label)((VBox)cr.getGraphic()).getChildren().get(1)).getText();
             Shape buttonShape = ((Shape)((VBox)cr.getGraphic()).getChildren().get(0));
-            if (buttonlabel.equals(iModel.getSelectedShape())) {
-                if ( buttonlabel.equals("Line")) {
+            if (cr.getId().equals(iModel.getSelectedShape().getName())) {
+                if ( cr.getId().equals(XLine.class.getName())) {
                     line.setStroke(iModel.getSelectedColor());
                 }
                 else {
                     buttonShape.setFill(iModel.getSelectedColor());
                 }
             } else {
-                if ( buttonlabel.equals("Line")) {
+                if ( cr.getId().equals(XLine.class.getName())) {
                     line.setStroke(Color.BLACK);
                 }
                 else {

@@ -4,29 +4,33 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
 public class ColourToolbar extends VBox implements InteractionModelSubscriber{
-    ArrayList<Button> buttonList = new ArrayList<>();
-    DrawingController controller;
-    DrawingModel model;
-    InteractionModel iModel;
+    private final ArrayList<Button> buttonList = new ArrayList<>();
+    private DrawingController controller;
+    private InteractionModel iModel;
 
-    String cssLayout = "-fx-border-color: red;\n" +
-            "-fx-border-width: 2;\n";
+    /**
+     * The Css layout for the chosen button
+     */
+    String cssLayout = """
+            -fx-border-color: red;
+            -fx-border-width: 2;
+            """;
 
     public ColourToolbar(){
         this.setWidth(100);
         this.setSpacing(5);
         setUpColourButton();
-
     }
 
+    /**
+     * Set up the buttons and initially select the AQUA button
+     */
     private void setUpColourButton(){
-        String list[] = {"AQUA", "VIOLET", "GREEN", "GOLD",
+        String[] list = {"AQUA", "VIOLET", "GREEN", "GOLD",
                         "ORANGE", "CORAL", "FUCHSIA", "PERU"};
 
         // for each colour, create a button for it
@@ -45,26 +49,33 @@ public class ColourToolbar extends VBox implements InteractionModelSubscriber{
         }
     }
 
-    public void setModel(DrawingModel newModel) {
-        model = newModel;
-    }
-
+    /**
+     * Sets controller.
+     *
+     * @param newController the new controller
+     */
     public void setController(DrawingController newController) {
         controller = newController;
         // whenever a button is clicked, change the selected colour in interaction model
         buttonList.forEach(cr -> cr.setOnMouseClicked(e -> controller.setColour(Color.valueOf(cr.getText()))));
     }
 
+    /**
+     * Sets interaction model.
+     *
+     * @param newIModel the new i model
+     */
     public void setInteractionModel(InteractionModel newIModel) {
         iModel = newIModel;
-        iModel.setColour(Color.AQUA);
+        // initialize the chosen colour
+        iModel.setSelectedColour(Color.AQUA);
     }
 
     @Override
     public void iModelChanged() {
-        // set border highlight for selected colour
+        // highlight the border of the selected colour
         buttonList.forEach(cr -> {
-            if (Color.valueOf(cr.getText()).equals(iModel.selectedColor)) {
+            if (Color.valueOf(cr.getText()).equals(iModel.getSelectedColor())) {
                 cr.setStyle(cssLayout);
             } else {
                 cr.setStyle("");

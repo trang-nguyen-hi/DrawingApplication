@@ -1,8 +1,8 @@
 package com.example.assignment3;
 
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class MiniDrawingController extends DrawingController{
     public MiniDrawingController(){
@@ -20,19 +20,16 @@ public class MiniDrawingController extends DrawingController{
     public void handlePressed(Double normX, Double normY, MouseEvent event) {
         prevX = normX;
         prevY = normY;
-        // ADD
 
         if (iModel.onViewFinder(normX, normY)) {
             currentState = State.MOVING;
-            // END ADD
         }
         else {
             super.handlePressed(normX, normY, event);
         }
     }
 
-    public void handleDragged (Double normX, Double normY, MouseEvent event) {
-        // ADD
+    public void handleDragged (Double normX, Double normY, MouseEvent event) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         if (currentState == State.MOVING){
                 double dX = normX - prevX;
                 double dY = normY - prevY;
@@ -44,8 +41,6 @@ public class MiniDrawingController extends DrawingController{
             super.handleDragged(normX, normY, event);
         }
     }
-
-    // ADD
 
     public void handleReleased(MouseEvent event) {
         if (currentState == State.MOVING){

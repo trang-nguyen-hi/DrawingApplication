@@ -2,8 +2,6 @@ package com.example.assignment3;
 
 import javafx.scene.paint.Paint;
 
-import java.lang.invoke.MethodType;
-
 public abstract class XShape {
     double left, top, right, bottom;
     protected double rootX, rootY;
@@ -20,6 +18,9 @@ public abstract class XShape {
         rootY = newTop;
 
         colour = newPaint;
+    }
+
+    public XShape(){
     }
 
     public abstract boolean contains(double x, double y);
@@ -54,10 +55,10 @@ public abstract class XShape {
         top += dY;
         right += dX;
         bottom += dY;
-        updateRoot();
+        updateAnchor();
     }
 
-    public void updateRoot(){
+    public void updateAnchor(){
         rootX = left;
         rootY = top;
     }

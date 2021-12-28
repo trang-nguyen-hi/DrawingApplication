@@ -2,8 +2,6 @@ package com.example.assignment3;
 
 import javafx.scene.paint.Paint;
 
-import java.security.PublicKey;
-
 public class XLine extends XShape{
     // ADD
     double ratioA, ratioB, ratioC;
